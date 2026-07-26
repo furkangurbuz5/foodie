@@ -1,11 +1,11 @@
-import {Meal} from '../interface/food-form.interface';
+import {Food} from '../interface/food-form.interface';
 
 export interface FilterSortModel {
   filters: {
     ingredient?: string;
   };
   sort: {
-    column: keyof Meal;
+    column: keyof Food;
     direction: 'asc' | 'desc';
   };
 }

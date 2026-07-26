@@ -7,12 +7,12 @@ import {
   signal,
   WritableSignal,
 } from '@angular/core';
-import { Meal } from '../interface/food-form.interface';
+import { Food } from '../interface/food-form.interface';
 import { FoodService } from '../service/food.service';
 import { FormsModule } from '@angular/forms';
-import { FilterSortModel } from '../model/filter-sort.model';
 import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { filterMeals } from '../filter/meal.filter';
 
 @Component({
   selector: 'smoothie-food-table',
@@ -26,7 +26,7 @@ export class FoodTable {
 
   private readonly destroy$: Subject<void> = new Subject<void>();
 
-  private ingredients: WritableSignal<Meal[]> = signal([]);
+  private ingredients: WritableSignal<Food[]> = signal([]);
   private filterTextSubject = new Subject<string>();
   protected filterText = toSignal(
     this.filterTextSubject.pipe(
@@ -37,15 +37,25 @@ export class FoodTable {
     { initialValue: '' },
   );
   protected filterType = signal<string>('ingredient');
-  protected filteredIngredients = computed(() => {
-    const text = this.filterText().toLowerCase();
+  protected numericFilterType = signal<string>('calories');
+  protected numericFilterOperator = signal<string>('>=');
 
-    return this.ingredients().filter((ingredient) => {
-      const value = ingredient['ingredient' as keyof Meal];
-      if (typeof value === 'string') {
-        return value.toLowerCase().includes(text);
-      }
-      return false;
+  private numericFilterValueSubject = new Subject<string>();
+  numericFilterValue = toSignal(
+    this.numericFilterValueSubject.pipe(debounceTime(300), distinctUntilChanged()),
+    { initialValue: '' },
+  );
+
+  protected filteredIngredients = computed(() => {
+    const text = this.filterText();
+    const numericType = this.numericFilterType() as keyof Food;
+    const operator = this.numericFilterOperator() as '>' | '<' | '>=' | '<=';
+    const numericValue = parseFloat(this.numericFilterValue()) || 0;
+
+    return filterMeals(this.ingredients(), text, {
+      type: numericType,
+      operator,
+      value: numericValue,
     });
   });
 
@@ -66,5 +76,18 @@ export class FoodTable {
     this.filterType.set(filtertype);
   }
 
+  protected updateNumericFilterType(filterType: string): void {
+    this.numericFilterType.set(filterType);
+  }
+
+  protected updateNumericFilterOperator(filterOperator: string): void {
+    this.numericFilterOperator.set(filterOperator);
+  }
+
+  protected updateNumericFilterValue(filterValue: string): void {
+    this.numericFilterValueSubject.next(filterValue);
+  }
+
+  //TODO calculate totals 
   private calculateTotals(): void {}
 }

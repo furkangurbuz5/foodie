@@ -1,5 +1,5 @@
 <div class="form-container">
-  <h1 class="form-title">Ingredients</h1>
+  <h1 class="form-title">Foods</h1>
   <button class="form-button" (click)="fillFormTest()">Fill Form Test</button>
   <form [formGroup]="mealForm" class="nutritional-form">
     <div class="form-group">
@@ -8,11 +8,11 @@
 
     <div class="form-grid">
       <div class="form-field">
-        <label class="small-label">Ingredient</label>
+        <label class="small-label">Name</label>
         <input
           type="text"
-          id="ingredient"
-          formControlName="ingredient"
+          id="name"
+          formControlName="name"
           class="form-input"
         />
       </div>

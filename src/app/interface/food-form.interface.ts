@@ -1,7 +1,7 @@
 import {FormControl} from '@angular/forms';
 
-export interface MealForm {
-  ingredient: FormControl<string | null>
+export interface FoodFormModel {
+  name: FormControl<string | null>
   calories: FormControl<number | null>
   amount: FormControl<number | null>
   protein: FormControl<number | null>
@@ -9,9 +9,9 @@ export interface MealForm {
   carbohydrates: FormControl<number | null>
 }
 
-export interface Meal {
+export interface Food {
   id: string | null;
-  ingredient: string | null;
+  name: string | null;
   calories: number | null;
   amount: number | null;
   protein: number | null;

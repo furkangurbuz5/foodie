@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
-import {Meal} from '../interface/food-form.interface';
+import {Food} from '../interface/food-form.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FoodService {
-  foods: Meal[] = [];
+  foods: Food[] = [];
 
-  addFood(food: Meal) {
+  addFood(food: Food) {
     this.foods.push(food);
 
     console.log(food);
   }
 
-  getFoods(): Meal[]{
+  getFoods(): Food[]{
     return this.foods;
   }
 }

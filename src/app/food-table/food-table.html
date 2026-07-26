@@ -6,13 +6,30 @@
     (ngModelChange)="updateFilterText($event)"
     placeholder="Filter by name"
   />
-  <select [ngModel]="filterType()" (ngModelChange)="updateFilterType($event)">
-    <option value="ingredient">ingredient</option>
-    <option value="calories">calories</option>
-    <option value="protein">protein</option>
-    <option value="fats">fats</option>
-    <option value="carbohydrates">carbohydrates</option>
-  </select>
+  <div class="numeric-filter">
+    <div class="numeric-filter-controls">
+      <select [ngModel]="numericFilterType()" (ngModelChange)="updateNumericFilterType($event)">
+        <option value="calories">calories</option>
+        <option value="protein">protein</option>
+        <option value="fats">fats</option>
+        <option value="carbohydrates">carbohydrates</option>
+      </select>
+
+      <select [ngModel]="numericFilterOperator()" (ngModelChange)="updateNumericFilterOperator($event)">
+        <option value=">">></option>
+        <option value="<">&lt;</option>
+        <option value=">=">>=</option>
+        <option value="<=">&lt;=</option>
+      </select>
+
+      <input
+        type="number"
+        [ngModel]="numericFilterValue()"
+        (ngModelChange)="updateNumericFilterValue($event)"
+        placeholder="e.g., 100"
+      />
+    </div>
+  </div>
 </div>
 <table class="food-table">
   <thead>
@@ -28,7 +45,7 @@
   <tbody>
     @for (ingredient of filteredIngredients(); track ingredient.id) {
       <tr>
-        <td>{{ ingredient.ingredient }}</td>
+        <td>{{ ingredient.name }}</td>
         <td>{{ ingredient.calories }}</td>
         <td>{{ ingredient.amount }}</td>
         <td>{{ ingredient.protein }}</td>
