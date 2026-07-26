@@ -1,0 +1,104 @@
+<div class="form-container">
+  <h1 class="form-title">Ingredients</h1>
+  <button class="form-button" (click)="fillFormTest()">Fill Form Test</button>
+  <form [formGroup]="mealForm" class="nutritional-form">
+    <div class="form-group">
+      <label class="form-label">Add a food</label>
+    </div>
+
+    <div class="form-grid">
+      <div class="form-field">
+        <label class="small-label">Ingredient</label>
+        <input
+          type="text"
+          id="ingredient"
+          formControlName="ingredient"
+          class="form-input"
+        />
+      </div>
+
+      <div class="form-field">
+        <label class="small-label">Calories (kcal, automatic)</label>
+        <input
+          type="text"
+          id="calories"
+          formControlName="calories"
+          class="form-input"
+          readonly
+        />
+      </div>
+
+      <div class="form-field">
+        <label class="small-label">Amount</label>
+        <input
+          type="number"
+          id="amount"
+          formControlName="amount"
+          class="form-input"
+          min="0"
+          step="1"
+        />
+        @let mealFormAmountControl = mealForm.controls.amount;
+        @if (mealFormAmountControl.invalid && mealFormAmountControl.touched && mealFormAmountControl.dirty) {
+          <small class="error-message">Amount must be a number</small>
+        }
+      </div>
+
+      <div class="form-field">
+        <label class="small-label">Protein (g)</label>
+        <input
+          type="number"
+          id="protein"
+          formControlName="protein"
+          class="form-input"
+          min="0"
+          step="1"
+        />
+        @let mealFormProteinControl = mealForm.controls.protein;
+        @if (mealFormProteinControl.invalid && mealFormProteinControl.touched && mealFormProteinControl.dirty) {
+          <small class="error-message">Protein must be a number</small>
+        }
+      </div>
+
+      <div class="form-field">
+        <label class="small-label">Fats (g)</label>
+        <input
+          type="number"
+          id="fats"
+          formControlName="fats"
+          class="form-input"
+          min="0"
+          step="1"
+        />
+        @let mealFormFatsControl = mealForm.controls.fats;
+        @if (mealFormFatsControl.invalid && mealFormFatsControl.touched && mealFormFatsControl.dirty) {
+          <small class="error-message">Fats must be a number</small>
+        }
+      </div>
+
+      <div class="form-field">
+        <label class="small-label">Carbohydrates (g)</label>
+        <input
+          type="number"
+          id="carbohydrates"
+          formControlName="carbohydrates"
+          class="form-input"
+          min="0"
+          step="1"
+        />
+        @let mealFormCarbohydratesControl = mealForm.controls.carbohydrates;
+        @if (mealFormCarbohydratesControl.invalid && mealFormCarbohydratesControl.touched && mealFormCarbohydratesControl.dirty) {
+          <small class="error-message">Carbohydrates must be a number</small>
+        }
+      </div>
+    </div>
+
+    <button type="button" (click)="addMeal()" class="form-button" [disabled]="mealForm.invalid">
+      Add
+    </button>
+  </form>
+
+  @if (isFoodAdded()) {
+    <p>Food added.</p>
+  }
+</div>
