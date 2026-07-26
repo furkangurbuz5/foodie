@@ -1,30 +1,32 @@
 <div class="filter-controls">
-
-  <select
-    [ngModel]="initialFilterOn"
-    (ngModelChange)="onFilterChange($event)"
-  >
+  <input
+    class=""
+    type="text"
+    [ngModel]="filterText()"
+    (ngModelChange)="updateFilterText($event)"
+    placeholder="Filter by name"
+  />
+  <select [ngModel]="filterType()" (ngModelChange)="updateFilterType($event)">
     <option value="ingredient">ingredient</option>
     <option value="calories">calories</option>
     <option value="protein">protein</option>
     <option value="fats">fats</option>
     <option value="carbohydrates">carbohydrates</option>
-
   </select>
 </div>
 <table class="food-table">
   <thead>
-  <tr>
-    <th>Ingredient</th>
-    <th>Calories</th>
-    <th>Amount</th>
-    <th>Protein (g)</th>
-    <th>Fats (g)</th>
-    <th>Carbohydrates (g)</th>
-  </tr>
+    <tr>
+      <th>Ingredient</th>
+      <th>Calories</th>
+      <th>Amount</th>
+      <th>Protein (g)</th>
+      <th>Fats (g)</th>
+      <th>Carbohydrates (g)</th>
+    </tr>
   </thead>
   <tbody>
-    @for (ingredient of ingredients(); track ingredient.id) {
+    @for (ingredient of filteredIngredients(); track ingredient.id) {
       <tr>
         <td>{{ ingredient.ingredient }}</td>
         <td>{{ ingredient.calories }}</td>
@@ -33,15 +35,14 @@
         <td>{{ ingredient.fats }}</td>
         <td>{{ ingredient.carbohydrates }}</td>
       </tr>
-
     }
-  <tr class="table-totals">
-    <td>{{ 'Totals:' }}</td>
-    <td>{{ 1 }}</td>
-    <td>{{ 2 }}</td>
-    <td>{{ 3 }}</td>
-    <td>{{ 4 }}</td>
-    <td>{{ 5 }}</td>
-  </tr>
+    <tr class="table-totals">
+      <td>{{ 'Totals:' }}</td>
+      <td>{{ 1 }}</td>
+      <td>{{ 2 }}</td>
+      <td>{{ 3 }}</td>
+      <td>{{ 4 }}</td>
+      <td>{{ 5 }}</td>
+    </tr>
   </tbody>
 </table>
