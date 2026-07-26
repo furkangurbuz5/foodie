@@ -1,1 +1,33 @@
-<p>food-filter works!</p>
+<div class="filter-controls">
+  <input
+    class=""
+    type="text"
+    [ngModel]="filterText()"
+    (ngModelChange)="updateFilterText($event)"
+    placeholder="Filter by name"
+  />
+  <div class="numeric-filter">
+    <div class="numeric-filter-controls">
+      <select [ngModel]="numericFilterType()" (ngModelChange)="updateNumericFilterType($event)">
+        <option value="calories">calories</option>
+        <option value="protein">protein</option>
+        <option value="fats">fats</option>
+        <option value="carbohydrates">carbohydrates</option>
+      </select>
+
+      <select [ngModel]="numericFilterOperator()" (ngModelChange)="updateNumericFilterOperator($event)">
+        <option value=">">></option>
+        <option value="<">&lt;</option>
+        <option value=">=">>=</option>
+        <option value="<=">&lt;=</option>
+      </select>
+
+      <input
+        type="number"
+        [ngModel]="numericFilterValue()"
+        (ngModelChange)="updateNumericFilterValue($event)"
+        placeholder="e.g., 100"
+      />
+    </div>
+  </div>
+</div>

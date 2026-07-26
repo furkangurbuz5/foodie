@@ -1,9 +1,82 @@
-import { Component } from '@angular/core';
+import { Component, computed, input, output, signal, WritableSignal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { Subject, takeUntil, debounceTime, distinctUntilChanged } from 'rxjs';
+import { filterMeals } from '../../filter/meal.filter';
+import { Food } from '../../interface/food-form.interface';
+import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-food-filter',
-  imports: [],
+  selector: 'smoothie-food-filter',
+  imports: [FormsModule],
   templateUrl: './food-filter.html',
-  styleUrl: './food-filter.css',
+  styleUrl: './food-filter.scss',
 })
-export class FoodFilter {}
+export class FoodFilter {
+  private readonly destroy$: Subject<void> = new Subject<void>();
+
+  private filterTextSubject = new Subject<string>();
+  protected filterText = toSignal(
+    this.filterTextSubject.pipe(
+      takeUntil(this.destroy$),
+      debounceTime(300),
+      distinctUntilChanged(),
+    ),
+    { initialValue: '' },
+  );
+  protected filterType = signal<string>('ingredient');
+  protected numericFilterType = signal<string>('calories');
+  protected numericFilterOperator = signal<string>('>=');
+
+  private numericFilterValueSubject = new Subject<string>();
+  numericFilterValue = toSignal(
+    this.numericFilterValueSubject.pipe(debounceTime(300), distinctUntilChanged()),
+    { initialValue: '' },
+  );
+
+  filtered = output<Food[]>()
+  foods = input.required<Food[]>();
+
+  private filteredFoods = computed(() => {
+    const text = this.filterText();
+    const numericType = this.numericFilterType() as keyof Food;
+    const operator = this.numericFilterOperator() as '>' | '<' | '>=' | '<=';
+    const numericValue = parseFloat(this.numericFilterValue()) || 0;
+
+    const filteredFoods = filterMeals(this.foods(), text, {
+      type: numericType,
+      operator,
+      value: numericValue,
+    });
+    this.filtered.emit(filteredFoods);
+
+    return filteredFoods;
+  });
+
+
+  ngOnDestroy() {
+    this.destroy$.next();
+  }
+
+  protected updateFilterText(filterText: string): void {
+    this.filterTextSubject.next(filterText);
+  }
+
+  protected updateFilterType(filtertype: string): void {
+    this.filterType.set(filtertype);
+  }
+
+  protected updateNumericFilterType(filterType: string): void {
+    this.numericFilterType.set(filterType);
+  }
+
+  protected updateNumericFilterOperator(filterOperator: string): void {
+    this.numericFilterOperator.set(filterOperator);
+  }
+
+  protected updateNumericFilterValue(filterValue: string): void {
+    this.numericFilterValueSubject.next(filterValue);
+  }
+
+  //TODO calculate totals
+  private calculateTotals(): void {}
+}
