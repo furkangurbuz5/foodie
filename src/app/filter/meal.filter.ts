@@ -3,7 +3,7 @@ import { Food } from '../interface/food-form.interface';
 /**
  * Filters an array of Meals based on text and numeric criteria.
  *
- * @param ingredients - The array of Meals to filter.
+ * @param foods - The array of Meals to filter.
  * @param textFilter - The text to filter by (e.g., ingredient name).
  * @param numericFilter - An object containing the numeric filter criteria:
  *   - `type`: The field to filter by (e.g., "calories", "protein").
@@ -12,7 +12,7 @@ import { Food } from '../interface/food-form.interface';
  * @returns The filtered array of Meals.
  */
 export function filterMeals(
-  ingredients: Food[],
+  foods: Food[],
   textFilter: string,
   numericFilter: {
     type: keyof Food;
@@ -23,13 +23,13 @@ export function filterMeals(
   const text = textFilter.toLowerCase();
   const { type, operator, value } = numericFilter;
 
-  return ingredients.filter((ingredient) => {
+  return foods.filter((food) => {
     let matchesText = true;
-    if (ingredient.name) {
-      matchesText = ingredient.name.toLowerCase().includes(text);
+    if (food.name) {
+      matchesText = food.name.toLowerCase().includes(text);
     }
 
-    const numericValueToCompare = ingredient[type] as number;
+    const numericValueToCompare = food[type] as number;
     let matchesNumeric = true;
     if (!isNaN(value)) {
       switch (operator) {
