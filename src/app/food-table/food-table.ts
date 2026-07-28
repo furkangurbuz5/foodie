@@ -28,8 +28,10 @@ export class FoodTable {
     this.foods.set(this.foodService.getFoods());
   }
 
-  protected updateFoodTable(foods: Food[]){
-    console.log('updateFoodTable')
-    this.foods.set(foods)
+  protected updateFoodTable(foods: Food[]) {
+    if (foods) {
+      this.foods.set(foods);
+    }
+    this.foods.set(this.foodService.getFoods());
   }
 }

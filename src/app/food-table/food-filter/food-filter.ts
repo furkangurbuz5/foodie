@@ -1,6 +1,14 @@
-import { Component, computed, input, output, signal, WritableSignal } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { Subject, takeUntil, debounceTime, distinctUntilChanged } from 'rxjs';
+import {
+  Component,
+  computed,
+  input,
+  OnChanges,
+  output,
+  signal,
+  SimpleChanges,
+} from '@angular/core';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { Subject, takeUntil, debounceTime, distinctUntilChanged, tap } from 'rxjs';
 import { filterMeals } from '../../filter/meal.filter';
 import { Food } from '../../interface/food-form.interface';
 import { FormsModule } from '@angular/forms';
@@ -33,28 +41,59 @@ export class FoodFilter {
     { initialValue: '' },
   );
 
-  filtered = output<Food[]>()
+  filtered = output<Food[]>();
   foods = input.required<Food[]>();
 
-  private filteredFoods = computed(() => {
+  // private filteredFoods = computed(() => {
+  //   const foods = this.foods();
+  //   const text = this.filterText();
+  //   const numericType = this.numericFilterType() as keyof Food;
+  //   const operator = this.numericFilterOperator() as '>' | '<' | '>=' | '<=';
+  //   const numericValue = parseFloat(this.numericFilterValue()) || 0;
+
+  //   console.log('computed filteredFoods', text, foods);
+
+  //   const filteredFoods = filterMeals(foods, text, {
+  //     type: numericType,
+  //     operator,
+  //     value: numericValue,
+  //   });
+
+  //   return filteredFoods;
+  // });
+
+  ngOnInit() {
+    this.filterTextSubject
+      .pipe(
+        takeUntil(this.destroy$),
+        debounceTime(300),
+        tap((text) => {
+          console.log(text);
+          this.filterAndEmit();
+        }),
+      )
+      .subscribe();
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+  }
+
+  private filterAndEmit() {
+    const foods = this.foods();
     const text = this.filterText();
     const numericType = this.numericFilterType() as keyof Food;
     const operator = this.numericFilterOperator() as '>' | '<' | '>=' | '<=';
     const numericValue = parseFloat(this.numericFilterValue()) || 0;
 
-    const filteredFoods = filterMeals(this.foods(), text, {
+    const filteredFoods = filterMeals(foods, text, {
       type: numericType,
       operator,
       value: numericValue,
     });
-    this.filtered.emit(filteredFoods);
 
-    return filteredFoods;
-  });
-
-
-  ngOnDestroy() {
-    this.destroy$.next();
+      this.filtered.emit(filteredFoods);
+    
   }
 
   protected updateFilterText(filterText: string): void {

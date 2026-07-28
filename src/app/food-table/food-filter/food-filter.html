@@ -15,7 +15,10 @@
         <option value="carbohydrates">carbohydrates</option>
       </select>
 
-      <select [ngModel]="numericFilterOperator()" (ngModelChange)="updateNumericFilterOperator($event)">
+      <select
+        [ngModel]="numericFilterOperator()"
+        (ngModelChange)="updateNumericFilterOperator($event)"
+      >
         <option value=">">></option>
         <option value="<">&lt;</option>
         <option value=">=">>=</option>
