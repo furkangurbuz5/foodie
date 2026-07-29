@@ -1,14 +1,44 @@
-<smoothie-food-filter (filtered)="updateFoodTable($event)" [foods]="foods()"/>
+<div class="filter-controls">
+  <input
+    class=""
+    type="text"
+    placeholder="Filter by name"
+  />
+  <div class="numeric-filter">
+    <div class="numeric-filter-controls">
+      <select>
+        <option value="calories">calories</option>
+        <option value="protein">protein</option>
+        <option value="fats">fats</option>
+        <option value="carbohydrates">carbohydrates</option>
+      </select>
+
+      <select
+      >
+        <option value=">">></option>
+        <option value="<">&lt;</option>
+        <option value=">=">>=</option>
+        <option value="<=">&lt;=</option>
+      </select>
+
+      <input
+        type="number"
+        placeholder="e.g., 100"
+      />
+    </div>
+  </div>
+</div>
+
 <table class="food-table">
   <thead>
-    <tr>
-      <th>Ingredient</th>
-      <th>Calories</th>
-      <th>Amount</th>
-      <th>Protein (g)</th>
-      <th>Fats (g)</th>
-      <th>Carbohydrates (g)</th>
-    </tr>
+  <tr>
+    <th>Ingredient</th>
+    <th>Calories</th>
+    <th>Amount</th>
+    <th>Protein (g)</th>
+    <th>Fats (g)</th>
+    <th>Carbohydrates (g)</th>
+  </tr>
   </thead>
   <tbody>
     @for (food of foods(); track food.id) {
@@ -21,13 +51,13 @@
         <td>{{ food.carbohydrates }}</td>
       </tr>
     }
-    <tr class="table-totals">
-      <td>{{ 'Totals:' }}</td>
-      <td>{{ 1 }}</td>
-      <td>{{ 2 }}</td>
-      <td>{{ 3 }}</td>
-      <td>{{ 4 }}</td>
-      <td>{{ 5 }}</td>
-    </tr>
+  <tr class="table-totals">
+    <td>{{ 'Totals:' }}</td>
+    <td>{{ 1 }}</td>
+    <td>{{ 2 }}</td>
+    <td>{{ 3 }}</td>
+    <td>{{ 4 }}</td>
+    <td>{{ 5 }}</td>
+  </tr>
   </tbody>
 </table>
