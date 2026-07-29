@@ -18,6 +18,14 @@ export class FoodTable {
 
   ngOnInit() {
     this.foods.set(this.foodService.getFoods());
+    this.openFoodFilterSubscription()
+  }
+
+  openFoodFilterSubscription(): void {
+    this.foodFilterService._foodFilter$.pipe(
+
+    )
+      .subscribe()
   }
 
 }
