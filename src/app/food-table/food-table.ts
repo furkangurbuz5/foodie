@@ -17,15 +17,11 @@ export class FoodTable {
   private readonly foodFilterService: FoodFilterService = inject(FoodFilterService);
 
   ngOnInit() {
-    this.foods.set(this.foodService.getFoods());
-    this.openFoodFilterSubscription()
+    this.foodService.getFoods().subscribe(foods => {
+      this.foods.set(foods)
+    })
+
   }
 
-  openFoodFilterSubscription(): void {
-    this.foodFilterService._foodFilter$.pipe(
-
-    )
-      .subscribe()
-  }
 
 }

@@ -3,6 +3,13 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "type": "java",
+      "name": "FoodieApplication",
+      "request": "launch",
+      "mainClass": "nl.furka.foodie.FoodieApplication",
+      "projectName": "foodie"
+    },
+    {
       "name": "ng serve",
       "type": "chrome",
       "request": "launch",
