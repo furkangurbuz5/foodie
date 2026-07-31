@@ -1,5 +1,6 @@
 package nl.furka.foodie.repository;
 
+import nl.furka.foodie.controller.handler.IngredientAlreadyExistsException;
 import nl.furka.foodie.model.Ingredient;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.JdbcClient;
@@ -17,7 +18,7 @@ public class IngredientRepository {
     this.jdbcClient = client;
   }
 
-  public void storeIngredient(Ingredient ingredient) throws RuntimeException {
+  public void storeIngredient(Ingredient ingredient) throws IngredientAlreadyExistsException {
     String sql = "INSERT INTO ingredient (id, name, properties_id) VALUES (?, ?, ?);";
 
     try {
@@ -27,7 +28,7 @@ public class IngredientRepository {
         .param(ingredient.propertiesId())
         .update();
     } catch (Exception e) {
-      throw new RuntimeException("Ingredient already exists");
+      throw new IngredientAlreadyExistsException("You tried adding an ingredient that already exists.");
     }
   }
 

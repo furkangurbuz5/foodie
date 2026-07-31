@@ -3,6 +3,7 @@ package nl.furka.foodie.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import nl.furka.foodie.controller.handler.IngredientAlreadyExistsException;
 import nl.furka.foodie.model.Ingredient;
 import nl.furka.foodie.repository.IngredientRepository;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,7 @@ public class FoodService {
   }
 
 
-  public Ingredient addIngredient(Ingredient ingredient) throws RuntimeException {
+  public Ingredient addIngredient(Ingredient ingredient) throws IngredientAlreadyExistsException {
     this.repo.storeIngredient(ingredient);
     return ingredient;
   }

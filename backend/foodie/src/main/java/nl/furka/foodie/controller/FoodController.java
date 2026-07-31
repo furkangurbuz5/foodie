@@ -25,13 +25,10 @@ public class FoodController {
   public ResponseEntity<?> addIngredient(
     @RequestBody Ingredient ingredient
   ) {
-    try {
-      var created = foodService.addIngredient(ingredient);
-      URI location = URI.create("ingredients/" + created.id());
-      return ResponseEntity.created(location).body(created); // 201 + body
-    } catch (RuntimeException e) {
-      return ResponseEntity.status(409).body(e.getMessage());
-    }
+    var created = foodService.addIngredient(ingredient);
+    URI location = URI.create("/api/ingredients/" + created.id());
+    return ResponseEntity.created(location).body(created); // 201 + body
+
   }
 
   @PostMapping("/property")
