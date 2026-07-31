@@ -16,23 +16,30 @@ public class FoodService {
   }
 
 
-  public Ingredient addIngredient(Ingredient ingredient) throws RuntimeException{
+  public Ingredient addIngredient(Ingredient ingredient) throws RuntimeException {
     this.repo.storeIngredient(ingredient);
     return ingredient;
   }
 
-  public Ingredient.Properties addProperty(Ingredient.Properties property){
+  public Ingredient.Properties addProperty(Ingredient.Properties property) {
     this.repo.storeProperty(property);
 
     return property;
   }
 
+  public List<Ingredient.Properties> getProperties() {
+    return this.repo.getProperties();
+  }
 
-  public List<String> getFoods() {
+  public List<Ingredient> getFoods() {
 
-    var ingredientList = new ArrayList<String>();
+    var ingredientList = new ArrayList<Ingredient>();
 
-    var ingredient = "Furkan!";
+    var ingredient = new Ingredient(
+      1,
+      "Furkan",
+      4
+    );
 
     ingredientList.add(ingredient);
 
