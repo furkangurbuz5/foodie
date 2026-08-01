@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nl.furka.foodie.controller.handler.IngredientAlreadyExistsException;
+import nl.furka.foodie.controller.handler.PropertyAlreadyExistsException;
 import nl.furka.foodie.model.Ingredient;
 import nl.furka.foodie.repository.IngredientRepository;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,7 @@ public class FoodService {
     return ingredient;
   }
 
-  public Ingredient.Properties addProperty(Ingredient.Properties property) {
+  public Ingredient.Properties addProperty(Ingredient.Properties property) throws PropertyAlreadyExistsException {
     this.repo.storeProperty(property);
 
     return property;

@@ -1,6 +1,7 @@
 package nl.furka.foodie.repository;
 
 import nl.furka.foodie.controller.handler.IngredientAlreadyExistsException;
+import nl.furka.foodie.controller.handler.PropertyAlreadyExistsException;
 import nl.furka.foodie.model.Ingredient;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.JdbcClient;
@@ -32,15 +33,20 @@ public class IngredientRepository {
     }
   }
 
-  public void storeProperty(Ingredient.Properties property) {
+  public void storeProperty(Ingredient.Properties property) throws PropertyAlreadyExistsException{
     String sql = "INSERT INTO properties (id, name, unit, category) VALUES (?, ?, ?, ?);";
 
-    jdbcClient.sql(sql)
-      .param(property.id())
-      .param(property.name())
-      .param(property.unit())
-      .param(property.category())
-      .update();
+    try{
+      jdbcClient.sql(sql)
+        .param(property.id())
+        .param(property.name())
+        .param(property.unit())
+        .param(property.category())
+        .update();
+    }catch(PropertyAlreadyExistsException dke){
+      throw new PropertyAlreadyExistsException("Property already exists");
+    }
+
   }
 
   public List<Ingredient.Properties> getProperties() {

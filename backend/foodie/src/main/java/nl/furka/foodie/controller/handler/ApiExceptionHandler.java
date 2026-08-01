@@ -1,5 +1,6 @@
 package nl.furka.foodie.controller.handler;
 
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -19,12 +20,12 @@ public class ApiExceptionHandler {
     return ResponseEntity.status(HttpStatus.CONFLICT).body(body);
   }
 
-  @ExceptionHandler(Exception.class)
-  public ResponseEntity<Map<String, Object>> onOther(Exception ex) {
+  @ExceptionHandler(PropertyAlreadyExistsException.class)
+  public ResponseEntity<Map<String, Object>> onOther(PropertyAlreadyExistsException ex) {
     Map<String, Object> body = Map.of(
-      "error", "internal_server_error",
-      "message", "Unexpected error"
+      "error", ex.getCause(),
+      "message", ex.getMessage()
     );
-    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(body);
+    return ResponseEntity.status(HttpStatus.CONFLICT).body(body);
   }
 }
