@@ -5,7 +5,6 @@ public record Ingredient(
   String name,
   int propertiesId
 ) {
-
   public record Properties(
     int id,
     String name,

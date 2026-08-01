@@ -17,7 +17,6 @@ public class FoodService {
     this.repo = repo;
   }
 
-
   public Ingredient addIngredient(Ingredient ingredient) throws IngredientAlreadyExistsException {
     this.repo.storeIngredient(ingredient);
     return ingredient;
@@ -25,7 +24,6 @@ public class FoodService {
 
   public Ingredient.Properties addProperty(Ingredient.Properties property) throws PropertyAlreadyExistsException {
     this.repo.storeProperty(property);
-
     return property;
   }
 
