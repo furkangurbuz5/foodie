@@ -22,13 +22,12 @@ public class FoodController {
   }
 
   @PostMapping("/ingredient")
-  public ResponseEntity<?> addIngredient(
+  public ResponseEntity<Ingredient> addIngredient(
     @RequestBody Ingredient ingredient
   ) {
     var created = foodService.addIngredient(ingredient);
     URI location = URI.create("/api/ingredients/" + created.id());
-    return ResponseEntity.created(location).body(created); // 201 + body
-
+    return ResponseEntity.created(location).body(created);
   }
 
   @PostMapping("/property")
