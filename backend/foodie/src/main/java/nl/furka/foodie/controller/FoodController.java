@@ -2,11 +2,9 @@ package nl.furka.foodie.controller;
 
 import java.net.URI;
 import java.util.List;
-
 import nl.furka.foodie.model.Ingredient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import nl.furka.foodie.service.FoodService;
 
 @RestController
