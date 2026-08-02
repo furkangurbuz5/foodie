@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS properties
 
 CREATE TABLE IF NOT EXISTS ingredient
 (
-  id            INTEGER PRIMARY KEY,
+  id            uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   name          TEXT    NOT NULL,
   properties_id INTEGER NOT NULL,
 

@@ -5,21 +5,24 @@ import java.util.List;
 
 import nl.furka.foodie.controller.handler.IngredientAlreadyExistsException;
 import nl.furka.foodie.controller.handler.PropertyAlreadyExistsException;
+import nl.furka.foodie.dto.CreateIngredientRequest;
 import nl.furka.foodie.model.Ingredient;
 import nl.furka.foodie.repository.IngredientRepository;
+import nl.furka.foodie.repository.IngredientRepositoryJpa;
 import org.springframework.stereotype.Service;
 
 @Service
 public class FoodService {
   private final IngredientRepository repo;
+  private final IngredientRepositoryJpa repoJpa;
 
-  FoodService(IngredientRepository repo) {
+  FoodService(IngredientRepository repo, IngredientRepositoryJpa repoJpa) {
     this.repo = repo;
+    this.repoJpa = repoJpa;
   }
 
-  public Ingredient addIngredient(Ingredient ingredient) throws IngredientAlreadyExistsException {
-    this.repo.storeIngredient(ingredient);
-    return ingredient;
+  public Ingredient addIngredient(CreateIngredientRequest ingredient) throws IngredientAlreadyExistsException {
+    return this.repo.storeIngredient(ingredient);
   }
 
   public Ingredient.Properties addProperty(Ingredient.Properties property) throws PropertyAlreadyExistsException {
@@ -29,21 +32,6 @@ public class FoodService {
 
   public List<Ingredient.Properties> getProperties() {
     return this.repo.getProperties();
-  }
-
-  public List<Ingredient> getFoods() {
-
-    var ingredientList = new ArrayList<Ingredient>();
-
-    var ingredient = new Ingredient(
-      1,
-      "Furkan",
-      4
-    );
-
-    ingredientList.add(ingredient);
-
-    return ingredientList;
   }
 
 }

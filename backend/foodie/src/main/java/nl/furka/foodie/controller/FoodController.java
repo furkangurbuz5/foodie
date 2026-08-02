@@ -2,6 +2,8 @@ package nl.furka.foodie.controller;
 
 import java.net.URI;
 import java.util.List;
+
+import nl.furka.foodie.dto.CreateIngredientRequest;
 import nl.furka.foodie.model.Ingredient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +23,7 @@ public class FoodController {
 
   @PostMapping("/ingredient")
   public ResponseEntity<Ingredient> addIngredient(
-    @RequestBody Ingredient ingredient
+    @RequestBody CreateIngredientRequest ingredient
   ) {
     var created = foodService.addIngredient(ingredient);
     URI location = URI.create("/api/ingredients/" + created.id());
@@ -42,7 +44,7 @@ public class FoodController {
   @GetMapping("/ingredients")
   ResponseEntity<List<Ingredient>> getIngredients() {
     return ResponseEntity.ok(
-      foodService.getFoods()
+      null
     );
   }
 

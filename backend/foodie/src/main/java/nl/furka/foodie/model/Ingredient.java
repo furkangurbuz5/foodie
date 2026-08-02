@@ -1,7 +1,9 @@
 package nl.furka.foodie.model;
 
+import java.util.UUID;
+
 public record Ingredient(
-  int id,
+  UUID id,
   String name,
   int propertiesId
 ) {
