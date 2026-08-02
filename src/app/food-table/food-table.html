@@ -1,63 +1,72 @@
-<div class="filter-controls">
-  <input
-    class=""
-    type="text"
-    placeholder="Filter by name"
-  />
-  <div class="numeric-filter">
-    <div class="numeric-filter-controls">
-      <select>
-        <option value="calories">calories</option>
-        <option value="protein">protein</option>
-        <option value="fats">fats</option>
-        <option value="carbohydrates">carbohydrates</option>
-      </select>
+@if (!isFetching()) {
+  <div class="filter-controls">
+    <input
+      class=""
+      type="text"
+      placeholder="Filter by name"
+    />
+    <div class="numeric-filter">
+      <div class="numeric-filter-controls">
+        <select>
+          <option value="calories">calories</option>
+          <option value="protein">protein</option>
+          <option value="fats">fats</option>
+          <option value="carbohydrates">carbohydrates</option>
+        </select>
 
-      <select
-      >
-        <option value=">">></option>
-        <option value="<">&lt;</option>
-        <option value=">=">>=</option>
-        <option value="<=">&lt;=</option>
-      </select>
+        <select
+        >
+          <option value=">">></option>
+          <option value="<">&lt;</option>
+          <option value=">=">>=</option>
+          <option value="<=">&lt;=</option>
+        </select>
 
-      <input
-        type="number"
-        placeholder="e.g., 100"
-      />
+        <input
+          type="number"
+          placeholder="e.g., 100"
+        />
+      </div>
     </div>
   </div>
-</div>
 
-<table class="food-table">
-  <thead>
-  <tr>
-    <th>Ingredient</th>
-    <th>Calories</th>
-    <th>Amount</th>
-    <th>Protein (g)</th>
-    <th>Fats (g)</th>
-    <th>Carbohydrates (g)</th>
-  </tr>
-  </thead>
-  <tbody>
-    @for (food of foods(); track food.id) {
-      <tr>
-        <td>{{ food.name }}</td>
-        <td>{{ food.calories }}</td>
-        <td>{{ food.amount }}</td>
-        <td>{{ food.protein }}</td>
-        <td>{{ food.fats }}</td>
-        <td>{{ food.carbohydrates }}</td>
-      </tr>
-    }
-  <tr class="table-totals">
-    <td>{{ 'Totals:' }}</td>
-    <td>{{ 1 }}</td>
-    <td>{{ 2 }}</td>
-    <td>{{ 3 }}</td>
-    <td>{{ 4 }}</td>
-    <td>{{ 5 }}</td>
-  </tr>
-  </tbody>
-</table>
+  <table class="food-table">
+    <thead>
+    <tr>
+      <th>Ingredient</th>
+      <th>Calories</th>
+      <th>Amount</th>
+      <th>Protein (g)</th>
+      <th>Fats (g)</th>
+      <th>Carbohydrates (g)</th>
+    </tr>
+    </thead>
+    <tbody>
+      @for (food of foods(); track food.id) {
+        <tr>
+          <td>
+            <a [routerLink]="['/ingredient', food.name]">
+              {{ food.name }}
+            </a>
+          </td>
+          <td>{{ food.calories }}</td>
+          <td>{{ food.amount }}</td>
+          <td>{{ food.protein }}</td>
+          <td>{{ food.fats }}</td>
+          <td>{{ food.carbohydrates }}</td>
+        </tr>
+      }
+    <tr class="table-totals">
+      <td>{{ 'Totals:' }}</td>
+      <td>{{ 1 }}</td>
+      <td>{{ 2 }}</td>
+      <td>{{ 3 }}</td>
+      <td>{{ 4 }}</td>
+      <td>{{ 5 }}</td>
+    </tr>
+    </tbody>
+  </table>
+
+} @else {
+  <div class="spinner"></div>
+}

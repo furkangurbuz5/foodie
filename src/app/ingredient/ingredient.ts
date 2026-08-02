@@ -1,5 +1,6 @@
-import {Component, input, InputSignal} from '@angular/core';
-import {Food} from '../interface/food-form.interface';
+import {Component, inject, signal, WritableSignal} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {finalize, take} from 'rxjs';
 
 @Component({
   selector: 'app-ingredient',
@@ -8,5 +9,18 @@ import {Food} from '../interface/food-form.interface';
   styleUrl: './ingredient.css',
 })
 export class Ingredient {
-  ingredient: InputSignal<Food> = input.required<Food>();
+  ingredient: WritableSignal<string | null> = signal<string | null>(null);
+  isFetching: WritableSignal<boolean> = signal<boolean>(false);
+  private readonly route: ActivatedRoute = inject(ActivatedRoute);
+
+  ngOnInit(): void {
+    this.isFetching.set(true);
+    this.route.params.pipe(take(1), finalize(() => {
+      this.isFetching.set(false)
+    })).subscribe(params => {
+      this.ingredient.set(params['name']);
+    })
+  }
+
+
 }

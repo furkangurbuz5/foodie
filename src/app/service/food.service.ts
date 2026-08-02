@@ -2,6 +2,7 @@ import {inject, Injectable} from '@angular/core';
 import {Food} from '../interface/food-form.interface';
 import {FoodClient} from '../client/food-client';
 import {map, Observable, take} from 'rxjs';
+import {IngredientResponse, mapResponseToFood} from '../dto/ingredient-response';
 
 class TestFood implements Food {
   amount: number | null;
@@ -47,18 +48,8 @@ export class FoodService {
     return this.foodClient.getFoods()
       .pipe(
         take(1),
-        map((foods) => {
-          const food = new TestFood(
-            1,
-            12,
-            13,
-            14,
-            '123',
-            foods[0],
-            1
-          )
-          const listOfFoods: Food[] = [food];
-          return listOfFoods;
+        map((foods: IngredientResponse[]): Food[] => {
+          return foods.map(mapResponseToFood)
         })
       )
   }

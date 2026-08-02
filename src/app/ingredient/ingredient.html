@@ -1,7 +1,11 @@
-<h1>{{ ingredient().name }}</h1>
+@if (!isFetching()) {
+  <h1>{{ ingredient() }}</h1>
 
-<input/>
-<select>
-  <option>g</option>
-  <option>ml</option>
-</select>
+  <input/>
+  <select>
+    <option>g</option>
+    <option>ml</option>
+  </select>
+  <button type="submit">Submit</button>
+
+}
