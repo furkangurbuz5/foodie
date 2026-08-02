@@ -45,7 +45,7 @@
       @for (food of foods(); track food.id) {
         <tr>
           <td>
-            <a [routerLink]="['/ingredient', food.name]">
+            <a [routerLink]="['/ingredient', food.id]">
               {{ food.name }}
             </a>
           </td>

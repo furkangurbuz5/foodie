@@ -8,12 +8,16 @@ import {Observable} from 'rxjs';
 })
 export class FoodClient {
   private readonly httpClient: HttpClient = inject(HttpClient);
+  private readonly headers: HttpHeaders = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': 'http://localhost:4200'
+  });
 
   getFoods(): Observable<IngredientResponse[]> {
-    const headers: HttpHeaders = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': 'http://localhost:4200'
-    });
-    return this.httpClient.get<IngredientResponse[]>("http://localhost:8080/api/ingredients", {headers})
+    return this.httpClient.get<IngredientResponse[]>("http://localhost:8080/api/ingredients", {headers: this.headers})
+  }
+
+  getFoodById(id: string): Observable<IngredientResponse> {
+    return this.httpClient.get<IngredientResponse>(`http://localhost:8080/api/ingredient/${id}`, {headers: this.headers})
   }
 }

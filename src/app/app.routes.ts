@@ -16,7 +16,7 @@ export const routes: Routes = [
   },
   {
     title: "Ingredient",
-    path: "ingredient/:name",
+    path: "ingredient/:id",
     component: Ingredient
   }
 ];

@@ -44,6 +44,16 @@ export class FoodService {
 
   }
 
+  getFoodById(id: string): Observable<Food> {
+    return this.foodClient.getFoodById(id)
+      .pipe(
+        take(1),
+        map((food: IngredientResponse): Food => {
+          return mapResponseToFood(food);
+        })
+      )
+  }
+
   getFoods(): Observable<Food[]> {
     return this.foodClient.getFoods()
       .pipe(
