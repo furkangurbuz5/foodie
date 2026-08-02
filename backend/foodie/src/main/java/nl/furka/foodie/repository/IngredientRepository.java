@@ -2,19 +2,24 @@ package nl.furka.foodie.repository;
 
 import nl.furka.foodie.controller.handler.IngredientAlreadyExistsException;
 import nl.furka.foodie.controller.handler.PropertyAlreadyExistsException;
+import nl.furka.foodie.dto.CreateIngredientPropertyRequest;
 import nl.furka.foodie.dto.CreateIngredientRequest;
 import nl.furka.foodie.model.Ingredient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 
 @Repository
 @Transactional
 public class IngredientRepository {
   private final JdbcClient jdbcClient;
+  private final Logger logger = LoggerFactory.getLogger(IngredientRepository.class);
 
   public IngredientRepository(JdbcClient client) {
     this.jdbcClient = client;
@@ -24,7 +29,7 @@ public class IngredientRepository {
     String sql = """
       INSERT INTO ingredient (name, properties_id)
       VALUES (?, ?)
-      RETURNING id, name, properties_id
+      RETURNING id, name, properties_id;
       """;
 
     try {
@@ -38,16 +43,35 @@ public class IngredientRepository {
     }
   }
 
-  public void storeProperty(Ingredient.Properties property) throws PropertyAlreadyExistsException {
-    String sql = "INSERT INTO properties (id, name, unit, category) VALUES (?, ?, ?, ?);";
+  public List<Ingredient> getIngredients() {
+    String sql = """
+      SELECT *
+      FROM ingredient;
+      """;
+    try {
+      return jdbcClient.sql(sql)
+        .query(ingredientRowMapper())
+        .list();
+    } catch (Exception e) {
+      throw new IngredientAlreadyExistsException("You tried adding an ingredient that already exists.");
+    }
+
+  }
+
+  public Ingredient.Properties storeProperty(CreateIngredientPropertyRequest property) throws PropertyAlreadyExistsException {
+    String sql = """
+      INSERT INTO properties (name, unit, category)
+      VALUES (?, ?, ?)
+      RETURNING id, name, unit, category;
+      """;
 
     try {
-      jdbcClient.sql(sql)
-        .param(property.id())
+      return jdbcClient.sql(sql)
         .param(property.name())
         .param(property.unit())
         .param(property.category())
-        .update();
+        .query(propertiesRowMapper())
+        .single();
     } catch (PropertyAlreadyExistsException dke) {
       throw new PropertyAlreadyExistsException("Property already exists");
     }
@@ -65,9 +89,9 @@ public class IngredientRepository {
 
   private RowMapper<Ingredient> ingredientRowMapper() {
     return (r, _) -> new Ingredient(
-      r.getObject("id", java.util.UUID.class),
+      r.getObject("id", UUID.class),
       r.getString("name"),
-      r.getInt("properties")
+      r.getInt("properties_id")
     );
 
   }
