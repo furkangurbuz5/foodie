@@ -3,6 +3,7 @@ package nl.furka.foodie.controller;
 import java.net.URI;
 import java.util.List;
 
+import nl.furka.foodie.dto.CreateIngredientPropertyRequest;
 import nl.furka.foodie.dto.CreateIngredientRequest;
 import nl.furka.foodie.model.Ingredient;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +33,7 @@ public class FoodController {
 
   @PostMapping("/property")
   public ResponseEntity<Ingredient.Properties> addProperty(
-    @RequestBody Ingredient.Properties property
+    @RequestBody CreateIngredientPropertyRequest property
   ) {
     var added = foodService.addProperty(property);
 
@@ -44,7 +45,7 @@ public class FoodController {
   @GetMapping("/ingredients")
   ResponseEntity<List<Ingredient>> getIngredients() {
     return ResponseEntity.ok(
-      null
+      foodService.getIngredients()
     );
   }
 
