@@ -4,6 +4,7 @@ import java.util.List;
 
 import nl.furka.foodie.controller.handler.IngredientAlreadyExistsException;
 import nl.furka.foodie.controller.handler.PropertyAlreadyExistsException;
+import nl.furka.foodie.dto.CreateIngredientPropertyRequest;
 import nl.furka.foodie.dto.CreateIngredientRequest;
 import nl.furka.foodie.model.Ingredient;
 import nl.furka.foodie.repository.IngredientRepository;
@@ -21,13 +22,16 @@ public class FoodService {
     return this.repo.storeIngredient(ingredient);
   }
 
-  public Ingredient.Properties addProperty(Ingredient.Properties property) throws PropertyAlreadyExistsException {
-    this.repo.storeProperty(property);
-    return property;
+  public Ingredient.Properties addProperty(CreateIngredientPropertyRequest property) throws PropertyAlreadyExistsException {
+    return this.repo.storeProperty(property);
   }
 
   public List<Ingredient.Properties> getProperties() {
     return this.repo.getProperties();
+  }
+
+  public List<Ingredient> getIngredients(){
+    return this.repo.getIngredients();
   }
 
 }
