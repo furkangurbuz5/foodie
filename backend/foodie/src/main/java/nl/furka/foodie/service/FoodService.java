@@ -1,6 +1,7 @@
 package nl.furka.foodie.service;
 
 import java.util.List;
+import java.util.UUID;
 
 import nl.furka.foodie.controller.handler.IngredientAlreadyExistsException;
 import nl.furka.foodie.controller.handler.PropertyAlreadyExistsException;
@@ -32,6 +33,10 @@ public class FoodService {
 
   public List<Ingredient> getIngredients(){
     return this.repo.getIngredients();
+  }
+
+  public Ingredient getIngredientById(UUID id){
+    return this.repo.getIngredientById(id);
   }
 
 }

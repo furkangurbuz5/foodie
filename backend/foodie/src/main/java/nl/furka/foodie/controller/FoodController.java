@@ -2,6 +2,7 @@ package nl.furka.foodie.controller;
 
 import java.net.URI;
 import java.util.List;
+import java.util.UUID;
 
 import nl.furka.foodie.dto.CreateIngredientPropertyRequest;
 import nl.furka.foodie.dto.CreateIngredientRequest;
@@ -46,6 +47,15 @@ public class FoodController {
   ResponseEntity<List<Ingredient>> getIngredients() {
     return ResponseEntity.ok(
       foodService.getIngredients()
+    );
+  }
+
+  @GetMapping("/ingredient/{id}")
+  ResponseEntity<Ingredient> getIngredients(
+    @PathVariable UUID id
+  ) {
+    return ResponseEntity.ok(
+      foodService.getIngredientById(id)
     );
   }
 

@@ -1,6 +1,6 @@
 import {Component, inject, signal, WritableSignal} from '@angular/core';
 import {ActivatedRoute, Params} from '@angular/router';
-import {finalize, switchMap, take, tap} from 'rxjs';
+import {finalize, Observable, switchMap, take, tap} from 'rxjs';
 import {FoodService} from '../service/food.service';
 import {Food} from '../interface/food-form.interface';
 
@@ -20,7 +20,7 @@ export class Ingredient {
     this.isFetching.set(true);
     this.route.params.pipe(
       take(1),
-      switchMap((params: Params) => {
+      switchMap((params: Params): Observable<Food> => {
         return this.foodService.getFoodById(params['id']);
       }),
       tap((food: Food): void => {

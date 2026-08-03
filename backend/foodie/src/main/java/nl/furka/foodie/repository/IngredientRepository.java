@@ -55,7 +55,23 @@ public class IngredientRepository {
     } catch (Exception e) {
       throw new IngredientAlreadyExistsException("You tried adding an ingredient that already exists.");
     }
+  }
 
+  public Ingredient getIngredientById(UUID id) {
+    String sql = """
+      SELECT *
+      FROM ingredient
+      WHERE id = :id;
+      """;
+    try {
+      return jdbcClient.sql(sql)
+        .param("id", id)
+        .query(ingredientRowMapper())
+        .single();
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw new IngredientAlreadyExistsException("Placeholder.");
+    }
   }
 
   public Ingredient.Properties storeProperty(CreateIngredientPropertyRequest property) throws PropertyAlreadyExistsException {
