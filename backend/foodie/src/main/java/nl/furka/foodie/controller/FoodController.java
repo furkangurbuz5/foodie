@@ -7,6 +7,7 @@ import java.util.UUID;
 import nl.furka.foodie.dto.CreateIngredientPropertyRequest;
 import nl.furka.foodie.dto.CreateIngredientRequest;
 import nl.furka.foodie.model.Ingredient;
+import nl.furka.foodie.model.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import nl.furka.foodie.service.FoodService;
@@ -51,20 +52,32 @@ public class FoodController {
   }
 
   @GetMapping("/ingredient/{id}")
-  ResponseEntity<Ingredient> getIngredientByIdPathVariable(
+  ResponseEntity<Page<Ingredient>> getIngredientByIdPathVariable(
     @PathVariable UUID id
   ) {
     return ResponseEntity.ok(
-      foodService.getIngredientById(id)
+      new Page<>(
+        foodService.getIngredientById(id),
+        0,
+        0,
+        1,
+        1
+      )
     );
   }
 
   @GetMapping("/ingredient")
-  ResponseEntity<Ingredient> getIngredientById(
+  ResponseEntity<Page<Ingredient>> getIngredientById(
     @RequestParam UUID id
   ) {
     return ResponseEntity.ok(
-      foodService.getIngredientById(id)
+      new Page<>(
+        foodService.getIngredientById(id),
+        0,
+        0,
+        1,
+        1
+      )
     );
   }
 
