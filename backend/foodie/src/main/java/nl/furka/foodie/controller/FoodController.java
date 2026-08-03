@@ -51,8 +51,17 @@ public class FoodController {
   }
 
   @GetMapping("/ingredient/{id}")
-  ResponseEntity<Ingredient> getIngredients(
+  ResponseEntity<Ingredient> getIngredientByIdPathVariable(
     @PathVariable UUID id
+  ) {
+    return ResponseEntity.ok(
+      foodService.getIngredientById(id)
+    );
+  }
+
+  @GetMapping("/ingredient")
+  ResponseEntity<Ingredient> getIngredientById(
+    @RequestParam UUID id
   ) {
     return ResponseEntity.ok(
       foodService.getIngredientById(id)
