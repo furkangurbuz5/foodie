@@ -52,19 +52,28 @@ public class FoodController {
   }
 
   @GetMapping("/ingredient/{id}")
-  ResponseEntity<Page<Ingredient>> getIngredientByIdPathVariable(
-    @PathVariable UUID id
+  ResponseEntity<Ingredient> getIngredientByIdPathVariable(
+    @PathVariable UUID id,
+    @RequestParam(defaultValue = "0") int page,
+    @RequestParam(defaultValue = "10") int size
   ) {
     return ResponseEntity.ok(
-      new Page<>(
-        foodService.getIngredientById(id),
-        0,
-        0,
-        1,
-        1
-      )
+
+      foodService.getIngredientById(id)
     );
   }
+
+  /*
+   *
+   *
+    @GetMapping("/{id}")
+public ResponseEntity<Product> getProduct(@PathVariable Long id) {
+    Optional<Product> productOpt = service.getProductById(id);
+    return productOpt
+        .map(ResponseEntity::ok)
+        .orElse(ResponseEntity.notFound().build()); // 404 if empty
+}
+   */
 
   @GetMapping("/ingredient")
   ResponseEntity<Page<Ingredient>> getIngredientById(
