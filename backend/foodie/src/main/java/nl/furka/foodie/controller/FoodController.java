@@ -8,6 +8,7 @@ import nl.furka.foodie.dto.CreateIngredientPropertyRequest;
 import nl.furka.foodie.dto.CreateIngredientRequest;
 import nl.furka.foodie.model.Ingredient;
 import nl.furka.foodie.model.Page;
+import nl.furka.foodie.model.Property;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import nl.furka.foodie.service.FoodService;
@@ -34,7 +35,7 @@ public class FoodController {
   }
 
   @PostMapping("/property")
-  public ResponseEntity<Ingredient.Properties> addProperty(
+  public ResponseEntity<Property> addProperty(
     @RequestBody CreateIngredientPropertyRequest property
   ) {
     var added = foodService.addProperty(property);
@@ -91,7 +92,7 @@ public ResponseEntity<Product> getProduct(@PathVariable Long id) {
   }
 
   @GetMapping("/properties")
-  ResponseEntity<List<Ingredient.Properties>> getProperties() {
+  ResponseEntity<List<Property>> getProperties() {
     return ResponseEntity.ok(foodService.getProperties());
   }
 }

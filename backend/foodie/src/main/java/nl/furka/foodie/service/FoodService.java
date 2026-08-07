@@ -10,6 +10,7 @@ import nl.furka.foodie.dto.CreateIngredientPropertyRequest;
 import nl.furka.foodie.dto.CreateIngredientRequest;
 import nl.furka.foodie.model.Ingredient;
 import nl.furka.foodie.model.Page;
+import nl.furka.foodie.model.Property;
 import nl.furka.foodie.repository.IngredientRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,11 +28,11 @@ public class FoodService {
     return this.repo.storeIngredient(ingredient);
   }
 
-  public Ingredient.Properties addProperty(CreateIngredientPropertyRequest property) throws PropertyAlreadyExistsException {
+  public Property addProperty(CreateIngredientPropertyRequest property) throws PropertyAlreadyExistsException {
     return this.repo.storeProperty(property);
   }
 
-  public List<Ingredient.Properties> getProperties() {
+  public List<Property> getProperties() {
     emptyList();
     return this.repo.getProperties();
   }
@@ -45,7 +46,7 @@ public class FoodService {
   }
 
   //TODO move to shared package probably.
-  private <T> Page<T> mapToCustomPage(Page<T> page) {
+  private <T> Page<T> mapToPage(Page<T> page) {
     return new Page<>(
       page.item(),
       page.size(),
